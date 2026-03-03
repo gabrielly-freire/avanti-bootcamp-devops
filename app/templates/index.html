@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Farmácia - Gestão Simples</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="#">Farmácia</a>
+      </div>
+    </nav>
+    <main class="container py-4">
+      <ul class="nav nav-tabs" id="tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="meds-tab" data-bs-toggle="tab" data-bs-target="#meds" type="button" role="tab">Medicamentos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab">Vendas</button>
+        </li>
+      </ul>
+      <div class="tab-content border border-top-0 p-3 bg-white">
+        <div class="tab-pane fade show active" id="meds" role="tabpanel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Medicamentos</h5>
+            <button class="btn btn-success" id="btn-add-medicine">Adicionar</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle" id="table-medicines">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Fabricante</th>
+                  <th>Validade</th>
+                  <th class="text-end">Preço</th>
+                  <th class="text-end">Estoque</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <hr />
+          <form id="form-medicine" class="row g-3">
+            <input type="hidden" id="med-id" />
+            <div class="col-md-4">
+              <label class="form-label">Nome</label>
+              <input class="form-control" id="med-nome" required />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Fabricante</label>
+              <input class="form-control" id="med-fabricante" required />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Validade</label>
+              <input type="date" class="form-control" id="med-validade" />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Preço</label>
+              <input type="number" step="0.01" class="form-control" id="med-preco" required />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Estoque</label>
+              <input type="number" class="form-control" id="med-estoque" required />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="med-rx" />
+                <label class="form-check-label">Receita obrigatória</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary" id="btn-save-medicine" type="submit">Salvar</button>
+              <button class="btn btn-secondary" id="btn-clear" type="button">Limpar</button>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="sales" role="tabpanel">
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Selecionar medicamento</label>
+              <select id="sale-med" class="form-select"></select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Qtd.</label>
+              <input id="sale-qtd" type="number" min="1" value="1" class="form-control" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button id="sale-add" class="btn btn-outline-primary w-100">Adicionar item</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm" id="table-cart">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th class="text-end">Qtd.</th>
+                  <th class="text-end">Preço unit.</th>
+                  <th class="text-end">Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" class="text-end">Total</th>
+                  <th class="text-end" id="cart-total">R$ 0,00</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="sale-finish" class="btn btn-success">Concluir venda</button>
+            <button id="sale-clear" class="btn btn-secondary">Limpar carrinho</button>
+          </div>
+          <hr />
+          <h6>Últimas vendas</h6>
+          <ul id="sales-list" class="list-group"></ul>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+  </html>
