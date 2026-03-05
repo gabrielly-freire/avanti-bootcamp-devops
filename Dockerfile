@@ -15,7 +15,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN mkdir -p /app/app/instance
+
 RUN useradd -m appuser
+
+RUN chown -R appuser:appuser /app
+
 USER appuser
 
 EXPOSE 5000
