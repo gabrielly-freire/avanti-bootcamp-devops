@@ -50,3 +50,26 @@ Se o comando não existir, instale o Python a partir de https://www.python.org/d
      python app/app.py
      ```
    A aplicação ficará disponível em: http://127.0.0.1:5000
+
+## 🚀 Como rodar o projeto usando Docker
+
+Você não precisa ter o Python instalado na sua máquina, apenas o Docker. Siga os passos abaixo:
+
+**1. Construa a imagem da aplicação:**
+1. Abra o terminal na pasta raiz do projeto use:
+`docker build -t farmacia-app .`
+
+**2. Inicie o container:**
+`docker run -p 5000:5000 farmacia-app`, caso queira iniciar e logo destruí-lo use: `docker run --rm -p 5000:5000 farmacia-app`
+
+**3. Acesse no navegador:**
+Abra o link `http://127.0.0.1:5000`.
+
+Para parar a aplicação, basta apertar `Ctrl + C` no terminal. O container será removido automaticamente para economizar espaço.
+
+## Como rodar com Docker Compose (Recomendado)
+Esta é a forma mais fácil e automatizada de subir toda a infraestrutura do projeto de uma só vez.
+
+1. Abra o terminal na pasta raiz do projeto.
+2. Inicie o sistema com um único comando:
+   `docker compose up`
