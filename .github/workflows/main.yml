@@ -106,3 +106,50 @@ jobs:
             ${{ env.DOCKER_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  deploy:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-push-image # Depende do sucesso do build
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+# Tenta baixar o artefato da ÚLTIMA execução com sucesso
+      - name: Baixar Estado Anterior
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: main.yml # O nome exato deste arquivo de workflow
+          name: terraform-state
+          path: ./infra
+        continue-on-error: true # Importante: na primeira vez que rodar, não haverá artefato. Isso evita que o pipeline quebre.
+
+      - name: Terraform Init
+        id: init
+        run: terraform -chdir=infra init
+        env:
+          KOYEB_TOKEN: ${{ secrets.KOYEB_TOKEN }}
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform -chdir=infra validate
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform -chdir=infra apply -auto-approve
+        env:
+          KOYEB_TOKEN: ${{ secrets.KOYEB_TOKEN }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_VAR_docker_image_tag: ${{ env.DOCKER_IMAGE_TAG }}
+
+# Faz o upload do novo estado atualizado
+      - name: Salvar Novo Estado
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-state
+          path: infra/terraform.tfstate
+          retention-days: 90 # Artefatos têm validade máxima no GitHub
