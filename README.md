@@ -48,13 +48,14 @@ Esta é a forma mais fácil e automatizada de subir toda a infraestrutura do pro
    docker compose up
    ```
 
-## CI/CD (GitHub Actions)
+## Deploy (CI/CD + Terraform Koyeb)
 
-- Disparos: push em qualquer branch, pull request para main e manual.
-- Jobs:
+- O pipeline de CI/CD (GitHub Actions) constrói e publica a imagem Docker e aplica o Terraform.
   - Lint: ruff (Python 3.11) e verificação de sintaxe (py_compile).
   - Test: instala dependências, executa smoke de inicialização e testes com pytest, gera report.xml.
   - Build & Push: constrói imagem multi-arquitetura (Buildx) e publica no Docker Hub.
+  - Deploy: aplica o Terraform para provisionar recursos na Koyeb.
+  - Destroy: destrói recursos provisionados na Koyeb.
 
 ## Equipe
 
