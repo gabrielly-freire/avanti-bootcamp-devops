@@ -35,6 +35,10 @@ def register_routes(app: Flask) -> None:
     def index():
         return render_template("index.html")
 
+    @app.get("/api/health")
+    def health():
+        return jsonify({"ok": True})
+
     @app.get("/api/medicamentos")
     def list_medicines():
         itens = Medicine.query.order_by(Medicine.nome.asc()).all()
