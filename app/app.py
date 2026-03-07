@@ -35,7 +35,7 @@ def register_routes(app: Flask) -> None:
     def index():
         return render_template("index.html")
 
-    @app.get("/api/health")
+    @app.get("/api/v1/health")
     def health():
         return jsonify({"ok": True})
 
